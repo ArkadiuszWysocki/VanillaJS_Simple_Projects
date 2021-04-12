@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Digital';
-    src: URL('/Stopwatch/fonts/digital-7\ \(mono\).ttf') format('truetype');
+    src: URL('./fonts/digital-7\ \(mono\).ttf') format('truetype');
   }
 
 * {
