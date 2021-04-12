@@ -58,6 +58,7 @@ h1 {
 }
 
 .stopwatch {
+    font-family: 'Digital';
     text-align: center;
     font-size: 72px;
     color: var(--first-color);
