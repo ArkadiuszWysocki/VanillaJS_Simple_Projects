@@ -3,8 +3,9 @@ const pauseBtn = document.querySelector('.pause');
 const stopBtn = document.querySelector('.stop');
 const resetBtn = document.querySelector('.reset');
 const historyBtn = document.querySelector('.history');
-const stopwatch = document.querySelector('.stopwatch');
-const currentLap = document.querySelector('.currentLap');
+const stopwatch = document.querySelector('.stopwatch span');
+const currentLap = document.querySelector('.currentLap span');
+const lastLap = document.querySelector('.lastLap span');
 const timeList = document.querySelector('.time-list');
 
 const infoBtn = document.querySelector('.info');

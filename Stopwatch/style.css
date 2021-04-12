@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Digital';
+    src: URL('/Stopwatch/fonts/digital-7\ \(mono\).ttf') format('truetype');
+  }
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -15,7 +20,7 @@ body {
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #333;
 }
 
@@ -53,7 +58,7 @@ h1 {
 }
 
 .stopwatch {
-    margin-left: 200px;
+    text-align: center;
     font-size: 72px;
     color: var(--first-color);
 }
@@ -63,7 +68,10 @@ h1 {
     text-align: center;
     color: var(--second-color);
     font-size: 22px;
+}
 
+span {
+    font-family: 'Digital';
 }
 
 .buttons {
