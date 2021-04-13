@@ -14,9 +14,15 @@
 
 <body>
     <div class="wrapper">
-        <p class="info">
+        <div class="info">
             <i class="fas fa-question"></i>
-        </p>
+            <i class="fas fa-paint-brush"></i>
+        </div>
+        <div class="colors">
+            <div class="color one"></div>
+            <div class="color two"></div>
+            <div class="color three"></div>
+        </div>
         <h1>Stopwatch</h1>
         <p class="stopwatch"><span>00:00:00</span></p>
         <p class="currentLap">Current lap: <span>00:00:00</span></p>
@@ -34,11 +40,12 @@
 
     <div class="modal-shadow">
         <div class="modal">
-            <h3>Instrukcja:</h3>
+            <h3>How to use:</h3>
             <p><i class="fas fa-play"></i> - start</p>
-            <p><i class="fas fa-pause"></i> - lap</p>
-            <p><i class="fas fa-stop"></i> - stop</p>
-            <p><i class="fas fa-times"></i> - remove all (including history)</p>
+            <p><i class="fas fa-pause"></i> - pause</p>
+            <p><i class="fas fa-redo"></i> - new lap</p>
+            <p><i class="fas fa-stop"></i> - stop session</p>
+            <p><i class="fas fa-times"></i> - clear all (including history)</p>
             <p><strong>Previous laps</strong> - check previous laps</p>
             <button class="close">Close</button>
         </div>

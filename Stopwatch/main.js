@@ -8,9 +8,18 @@ const currentLap = document.querySelector('.currentLap span');
 const lastLap = document.querySelector('.lastLap span');
 const timeList = document.querySelector('.time-list');
 
-const infoBtn = document.querySelector('.info');
+const infoBtn = document.querySelector('.fa-question');
 const modalShadow = document.querySelector('.modal-shadow');
 const closeModalBtn = document.querySelector('.close');
+
+// color buttons
+const colorBtn = document.querySelector('.fa-paint-brush');
+const colorPanel = document.querySelector('.colors');
+const colorOne = document.querySelector('.one');
+const colorTwo = document.querySelector('.two');
+const colorThree = document.querySelector('.three');
+
+let root = document.documentElement;
 
 let timesArr = [];
 let countTime;
@@ -22,9 +31,33 @@ let minutes = 0;
 let milliseconds2 = 0;
 let minutes2 = 0;
 let seconds2 = 0;
-// let currentLap;
 
 
+//Timer for total time
+const displayTime = () => {
+  let dispSeconds;
+  let dispMinutes;
+  let dispMilliseconds;
+  
+  if(milliseconds === 99) {
+    milliseconds = 0;
+    seconds++;
+        if(seconds === 60) {
+        minutes++;
+        seconds = 0;
+        }
+    } else {
+      milliseconds += 1;
+    };
+  
+  dispMilliseconds = (milliseconds < 10) ? "0" + milliseconds : milliseconds;
+  dispSeconds = (seconds < 10) ? "0" + seconds : seconds;
+  dispMinutes = (minutes < 10) ? "0" + minutes : minutes;
+  stopwatch.textContent =  `${dispMinutes}:${dispSeconds}:${dispMilliseconds}`;
+};
+
+
+//Timer for current lap time (possible 1ms delay)
 const currentTime = () => {
 
   let dispSeconds;
@@ -48,28 +81,8 @@ const currentTime = () => {
   currentLap.textContent = `${dispMinutes}:${dispSeconds}:${dispMilliseconds}`;
 };
 
-const displayTime = () => {
-  let dispSeconds;
-  let dispMinutes;
-  let dispMilliseconds;
-  
-  if(milliseconds === 99) {
-    milliseconds = 0;
-    seconds++;
-        if(seconds === 60) {
-        minutes++;
-        seconds = 0;
-        }
-    } else {
-      milliseconds += 1;
-    };
-  
-  dispMilliseconds = (milliseconds < 10) ? "0" + milliseconds : milliseconds;
-  dispSeconds = (seconds < 10) ? "0" + seconds : seconds;
-  dispMinutes = (minutes < 10) ? "0" + minutes : minutes;
-  stopwatch.textContent =  `${dispMinutes}:${dispSeconds}:${dispMilliseconds}`;
-};
 
+//start button handler
 const handleStart = () => {
   if(!active) {
     active = !active;
@@ -87,6 +100,8 @@ const handleStart = () => {
   
 };
 
+
+//lap button handler
 const handleLap = () => {
   if (active) {
       clearInterval(currentLapTime);
@@ -97,7 +112,6 @@ const handleLap = () => {
       timesArr.forEach(time => {
           const newTime = document.createElement('li');
           newTime.innerHTML = `Lap # ${num}: <span>${time}</span>`
-    
           timeList.appendChild(newTime);
           num++;
       })
@@ -109,14 +123,20 @@ const handleLap = () => {
   };
 };
 
+//show/hide times list
 const showTimes = () => {
   timeList.classList.toggle('hidden')
 };
 
+//stop button handler
 const handleStop = () => {
   clearInterval(countTime);
   clearInterval(currentLapTime);
   startBtn.innerHTML = '<i class="fas fa-play"></i>';
+  const finalTime = document.createElement('li');
+  finalTime.innerHTML = `Total session time: <span>${stopwatch.textContent}</span>`
+  timeList.appendChild(finalTime);
+  timesArr = [];
   active = false;
   milliseconds = 0;
   seconds = 0;
@@ -127,8 +147,55 @@ const handleStop = () => {
 };
 
 
+//reset button handler
+const handleReset = () => {
+handleStop();
+timeList.textContent = '';
+stopwatch.textContent = '00:00:00';
+currentLap.textContent = '00:00:00';
+lastLap.textContent = '00:00:00';
+};
 
+//show modal
+const showModal = () => {
+  if (!(modalShadow.style.display === 'block')) {
+      modalShadow.style.display = 'block';
+  } else {
+      modalShadow.style.display = 'none';
+  };
+
+  modalShadow.classList.toggle('modal-animation')
+};
+
+
+//listeners
 startBtn.addEventListener('click', handleStart);
 lapBtn.addEventListener('click', handleLap);
 historyBtn.addEventListener('click', showTimes);
-stopBtn.addEventListener('click', handleStop)
+stopBtn.addEventListener('click', handleStop);
+resetBtn.addEventListener('click', handleReset);
+
+infoBtn.addEventListener('click', showModal);
+closeModalBtn.addEventListener('click', showModal);
+window.addEventListener('click', e => e.target === modalShadow ? showModal() : false);
+
+
+// color change
+colorBtn.addEventListener('click', () => {
+  colorPanel.classList.toggle('show-colors')
+})
+
+colorOne.addEventListener('click', () => {
+  root.style.setProperty('--first-color', 'rgb(250, 20, 6)');
+  root.style.setProperty('--hover-color', 'rgb(209, 33, 24)');
+});
+
+colorTwo.addEventListener('click', () => {
+  root.style.setProperty('--first-color', 'rgb(6, 173, 250)');
+  root.style.setProperty('--hover-color', 'rgb(28, 145, 199)');
+});
+
+colorThree.addEventListener('click', () => {
+  root.style.setProperty('--first-color', 'rgb(0, 255, 42)');
+  root.style.setProperty('--hover-color', 'rgb(28, 209, 58)');
+});
