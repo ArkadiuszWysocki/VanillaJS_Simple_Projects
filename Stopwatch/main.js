@@ -1,5 +1,5 @@
 const startBtn = document.querySelector('.start');
-const pauseBtn = document.querySelector('.pause');
+const lapBtn = document.querySelector('.lap');
 const stopBtn = document.querySelector('.stop');
 const resetBtn = document.querySelector('.reset');
 const historyBtn = document.querySelector('.history');
@@ -14,19 +14,46 @@ const closeModalBtn = document.querySelector('.close');
 
 let timesArr = [];
 let countTime;
+let currentLapTime;
 let active = false;
-let minutes = 0;
-let seconds = 0;
 let milliseconds = 0;
+let seconds = 0;
+let minutes = 0;
+let milliseconds2 = 0;
+let minutes2 = 0;
+let seconds2 = 0;
+// let currentLap;
 
+
+const currentTime = () => {
+
+  let dispSeconds;
+  let dispMinutes;
+  let dispMilliseconds;
+  
+  if(milliseconds2 === 99) {
+    milliseconds2 = 0;
+    seconds2++;
+        if(seconds2 === 60) {
+        minutes2++;
+        seconds2 = 0;
+        }
+    } else {
+      milliseconds2 += 1;
+    };
+  
+  dispMilliseconds = (milliseconds2 < 10) ? "0" + milliseconds2 : milliseconds2;
+  dispSeconds = (seconds2 < 10) ? "0" + seconds2 : seconds2;
+  dispMinutes = (minutes2 < 10) ? "0" + minutes2 : minutes2;
+  currentLap.textContent = `${dispMinutes}:${dispSeconds}:${dispMilliseconds}`;
+};
 
 const displayTime = () => {
-
-    let dispSeconds;
-    let dispMinutes;
-    let dispMilliseconds;
-    
-    if(milliseconds === 99) {
+  let dispSeconds;
+  let dispMinutes;
+  let dispMilliseconds;
+  
+  if(milliseconds === 99) {
     milliseconds = 0;
     seconds++;
         if(seconds === 60) {
@@ -40,29 +67,68 @@ const displayTime = () => {
   dispMilliseconds = (milliseconds < 10) ? "0" + milliseconds : milliseconds;
   dispSeconds = (seconds < 10) ? "0" + seconds : seconds;
   dispMinutes = (minutes < 10) ? "0" + minutes : minutes;
-  stopwatch.textContent = `${dispMinutes}:${dispSeconds}:${dispMilliseconds}`;
-  currentLap.textContent = `${dispMinutes}:${dispSeconds}:${dispMilliseconds}`;
- };
+  stopwatch.textContent =  `${dispMinutes}:${dispSeconds}:${dispMilliseconds}`;
+};
 
- const handleStart = () => {
-   if(!active) {
-     active = !active;
-     countTime = setInterval(displayTime, 10);
-     startBtn.innerHTML = '<i class="fas fa-pause"></i>';
+const handleStart = () => {
+  if(!active) {
+    active = !active;
+    countTime = setInterval(displayTime, 10);
+    currentLapTime = setInterval(currentTime, 10);
+    startBtn.innerHTML = '<i class="fas fa-pause"></i>';
+    
+  }
+  else {
+    active = !active;
+    clearInterval(countTime);
+    clearInterval(currentLapTime);
+    startBtn.innerHTML = '<i class="fas fa-play"></i>';
+  }
+  
+};
 
-//    btn text content to puase
+const handleLap = () => {
+  if (active) {
+      clearInterval(currentLapTime);
+      lastLap.textContent = currentLap.textContent;
+      timesArr.push(currentLap.textContent);
+      timeList.textContent = '';
+      let num = 1;
+      timesArr.forEach(time => {
+          const newTime = document.createElement('li');
+          newTime.innerHTML = `Lap # ${num}: <span>${time}</span>`
+    
+          timeList.appendChild(newTime);
+          num++;
+      })
+      currentLap.textContent = '00:00:00';
+      milliseconds2 = 0;
+      minutes2 = 0;
+      seconds2 = 0;
+      currentLapTime = setInterval(currentTime, 10);
+  };
+};
 
-   }
-   else {
-     active = !active;
-     clearInterval(countTime);
-     startBtn.innerHTML = '<i class="fas fa-play"></i>';
-   }
-   
- };
+const showTimes = () => {
+  timeList.classList.toggle('hidden')
+};
 
-
+const handleStop = () => {
+  clearInterval(countTime);
+  clearInterval(currentLapTime);
+  startBtn.innerHTML = '<i class="fas fa-play"></i>';
+  active = false;
+  milliseconds = 0;
+  seconds = 0;
+  minutes = 0;
+  milliseconds2 = 0;
+  minutes2 = 0;
+  seconds2 = 0;
+};
 
 
 
 startBtn.addEventListener('click', handleStart);
+lapBtn.addEventListener('click', handleLap);
+historyBtn.addEventListener('click', showTimes);
+stopBtn.addEventListener('click', handleStop)
