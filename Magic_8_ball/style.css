@@ -69,6 +69,8 @@ body {
 
 .question-area .answer {
     margin-top: 30px;
+    color: red;
+    text-transform: uppercase;
 }
 
 .question-area .answer span {
