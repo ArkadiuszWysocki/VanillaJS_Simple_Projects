@@ -48,7 +48,7 @@ const getWeather = () => {
             photo.setAttribute('src', 'IMG/unknown.png');
         }
 
-        // console.log(status);
+    
     }).catch( () => {
         warning.textContent = 'Incorrect place name '
     })
